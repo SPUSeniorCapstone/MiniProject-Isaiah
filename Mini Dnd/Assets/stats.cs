@@ -80,7 +80,6 @@ public class stats : MonoBehaviour
             //Console.Write("HELP"); doesn't do anything
         }
     }
-
     // Update is called once per frame
     void Update()
     {
