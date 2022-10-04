@@ -7,13 +7,17 @@ using TMPro;
 using UnityEngine;
 using Random = System.Random;
 
-public enum ActionType { action, bonus, reaction, free};
-    public class CharacterSheet : MonoBehaviour 
-    {
+    public enum ActionType { action, bonus, reaction, free};
+ public class CharacterSheet : MonoBehaviour 
+ {
+    //[SerializeField] public TextMeshProUGUI statsDisplay;
+    //[SerializeField] public TextMeshProUGUI skillsDisplay;
+    //[SerializeField] public TextMeshProUGUI display;
 
-        //  ========================ATTENTION! consider placing stats in inspector. array needed. array of class or struct, attribute name and value? or just position in the array and interpret?
 
-        public Dictionary<string, Skill> skills = new Dictionary<string, Skill>();
+    //  ========================ATTENTION! consider placing stats in inspector. array needed. array of class or struct, attribute name and value? or just position in the array and interpret?
+
+    public Dictionary<string, Skill> skills = new Dictionary<string, Skill>();
         public Dictionary<string, Ability> abilities = new Dictionary<string, Ability>();
         public Dictionary<string, DnDAction> actions = new Dictionary<string, DnDAction>();
         public Dictionary<string, DnDAction> bonusActions = new Dictionary<string, DnDAction>();
@@ -142,7 +146,8 @@ public enum ActionType { action, bonus, reaction, free};
 
         public void LoadSheet(string name)
         {
-            string statBlock = name + ".txt";
+        string statBlock = name + ".txt";
+        //Debug.Log(statBlock);
             string line;
             int counter = 0;
             int temp = 0;
@@ -153,37 +158,45 @@ public enum ActionType { action, bonus, reaction, free};
             {
                 if (counter < 6)
                 {
+                    //Debug.Log(line);
                     temp = Int32.Parse(line);
+                
                     switch (counter)
                     {
                         case 0:
-                            abilities["Strength"].SetScore(temp);
+                            abilities["Strength"].SetScore(temp); //problem statement
                             Strength = temp;
-                            break;
+                        //display.text += "Strength      [" + temp + "]\n";
+                        break;
                         case 1:
                             abilities["Dexterity"].SetScore(temp);
                             Dexterity = temp;
-                            break;
+                        //display.text += "Dexterity      [" + temp + "]\n";
+                        break;
 
                         case 2:
                             abilities["Constitution"].SetScore(temp);
                             Constitution = temp;
-                            break;
+                        //display.text += "Constitution      [" + temp + "]\n";
+                        break;
 
                         case 3:
                             abilities["Intelligence"].SetScore(temp);
                             Intelligence = temp;
-                            break;
+                        //display.text += "Intelligence      [" + temp + "]\n";
+                        break;
 
                         case 4:
                             abilities["Wisdom"].SetScore(temp);
                             Wisdom = temp;
-                            break;
+                        //display.text += "Wisdom      [" + temp + "]\n";
+                        break;
 
                         case 5:
                             abilities["Charisma"].SetScore(temp);
                             Charisma = temp;
-                            break;
+                        //display.text += "Charisma      [" + temp + "]\n";
+                        break;
                     }
                 }
                 counter++;
@@ -233,18 +246,26 @@ public enum ActionType { action, bonus, reaction, free};
         {
             return user.name + " helps.\n";
         }
+
+       
     // ============================================================ ATTENTION! ideally, would have one function and read and write, not two
+    /*
     public void Start()
     {
-        TextMeshProUGUI text = GameObject.Find("Stats").GetComponent<TextMeshProUGUI>();
+       // Debug.Log("Name " + name);
+        // this depends on if character sheet is made first or not
+        // seems to be that character sheet is called first
+        
+        display = GetComponent<TextMeshProUGUI>();
 
-        text.text = "";
+        display.text = "";
+        Debug.Log(name);
 
         string line;
         int counter = 0;
         int temp;
-
-        System.IO.StreamReader file = new System.IO.StreamReader("Assets/Resources/statblocks/player.txt");
+        string statBlock = name + ".txt";
+        System.IO.StreamReader file = new System.IO.StreamReader("Assets/Resources/statblocks/" + statBlock);
 
         while ((line = file.ReadLine()) != null)
         {
@@ -255,37 +276,50 @@ public enum ActionType { action, bonus, reaction, free};
                 {
                     case 0:
                         Strength = temp;
-                        text.text += "Strength      [" + temp + "]\n";
+                        display.text += "Strength      [" + temp + "]\n";
                         break;
 
                     case 1:
                         Dexterity = temp;
-                        text.text += "Dexterity      [" + temp + "]\n";
+                        display.text += "Dexterity      [" + temp + "]\n";
                         break;
 
                     case 2:
                         Constitution = temp;
-                        text.text += "Constitution [" + temp + "]\n";
+                        display.text += "Constitution [" + temp + "]\n";
                         break;
 
                     case 3:
                         Intelligence = temp;
-                        text.text += "Intelligence [" + temp + "]\n";
+                        display.text += "Intelligence [" + temp + "]\n";
                         break;
 
                     case 4:
                         Wisdom = temp;
-                        text.text += "Wisdom [" + temp + "]\n";
+                        display.text += "Wisdom [" + temp + "]\n";
                         break;
 
                     case 5:
                         Charisma = temp;
-                        text.text += "Charisma [" + temp + "]\n";
+                        display.text += "Charisma [" + temp + "]\n";
                         break;
                 }
             }
             counter++;
             //Console.Write("HELP"); doesn't do anything
+        }
+        
+    }
+    */
+    public static int GetModifier(int stat)
+    {
+        if (stat % 2 != 0)
+        {
+            return (Story.hash[(stat - 1) / 2]);
+        }
+        else
+        {
+            return (Story.hash[stat / 2]);
         }
     }
 }
